@@ -57,4 +57,6 @@ def classify_receipt():
     return jsonify({"store_name": store_name, "category": category})
 
 if __name__ == "__main__":
-    app.run(host="0.0.0.0", port=8000)
+    # Render에서 환경 변수 PORT를 사용하여 포트를 설정
+    port = int(os.environ.get("PORT", 10000))
+    app.run(host="0.0.0.0", port=port)
