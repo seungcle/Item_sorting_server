@@ -1,7 +1,9 @@
 from flask import Flask, request, jsonify
 import openai
 import os
+import json  # json 모듈 추가
 from dotenv import load_dotenv
+from flask_cors import CORS  # CORS 설정 추가
 
 # 환경 변수 로드
 load_dotenv()
@@ -11,6 +13,7 @@ if not API_KEY:
     raise ValueError("OPENAI_API_KEY가 설정되지 않았습니다. .env 파일을 확인하세요!")
 
 app = Flask(__name__)
+CORS(app)  # CORS 설정 추가
 
 # GPT-4를 사용하여 가게 이름 + 품목 리스트를 기반으로 카테고리를 분류
 def classify_receipt_gpt4(store_name, product_names):
@@ -54,7 +57,15 @@ def classify_receipt():
     # GPT-4로 가게 카테고리 분류 요청
     category = classify_receipt_gpt4(store_name, product_names)
 
-    return jsonify({"store_name": store_name, "category": category})
+    # jsonify() 대신 json.dumps() 사용하고 ensure_ascii=False 설정
+    response = {
+        "store_name": store_name,
+        "category": category
+    }
+    return app.response_class(
+        response=json.dumps(response, ensure_ascii=False),
+        mimetype='application/json'
+    )
 
 if __name__ == "__main__":
     # Render에서 환경 변수 PORT를 사용하여 포트를 설정
