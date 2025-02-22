@@ -29,7 +29,7 @@ def classify_receipt_gpt4(store_name, product_names):
                                     "- 교통비 (예: 버스, 지하철, 택시, 주유소)\n"
                                     "- 숙박비 (예: 호텔, 모텔, 에어비앤비)\n"
                                     "- 전자기기 (예: 전자제품 매장, 컴퓨터 매장)\n"
-                                    "- 생활용품 (예: 편의점, 마트, 다이소)\n"
+                                    "- 소모품비 (예: 편의점, 마트, 다이소)\n"
                                     "- 기타\n"
                                     "카테고리 이름만 딱 하나만 출력해줘. 문장 없이, 예를 들어 '식비'처럼."  # 프롬프트 수정
         }
@@ -44,7 +44,7 @@ def classify_receipt_gpt4(store_name, product_names):
     category = response.choices[0].message.content.strip()
 
     # 혹시 모를 예외 상황 처리 (예: 카테고리 외의 응답이 나오는 경우)
-    valid_categories = ["식비", "교통비", "숙박비", "전자기기", "생활용품", "기타"]
+    valid_categories = ["식비", "교통비", "숙박비", "전자기기", "소모품비", "기타"]
     if category not in valid_categories:
         category = "기타"
 
